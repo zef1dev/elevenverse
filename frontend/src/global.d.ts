@@ -5,10 +5,7 @@ declare global {
     solana?: {
       isPhantom?: boolean;
       connect: (opts?: { onlyIfTrusted?: boolean }) => Promise<{
-        publicKey: {
-          toString(): string;
-          toBase58(): string; // modern Phantom returns a PublicKey
-        };
+        publicKey: { toString(): string; toBase58(): string };
       }>;
       disconnect: () => Promise<void>;
       on?: (
@@ -18,6 +15,3 @@ declare global {
     };
   }
 }
-
-// Allow TypeScript to import the browser polyfill “process” without error
-declare module "process";

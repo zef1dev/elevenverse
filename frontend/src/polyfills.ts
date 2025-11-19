@@ -2,11 +2,25 @@
 import { Buffer } from "buffer";
 import process from "process";
 
-// Make Buffer available everywhere
-// Some libs read window.Buffer, others globalThis.Buffer
-(window as any).Buffer = (window as any).Buffer || Buffer;
-(globalThis as any).Buffer = (globalThis as any).Buffer || Buffer;
+// Make Buffer & process available without using "any"
 
-// Process shim (used by some crypto libs)
-(window as any).process = (window as any).process || process;
-(globalThis as any).process = (globalThis as any).process || process;
+type BufferProcessWindow = typeof window & {
+  Buffer?: typeof Buffer;
+  process?: typeof process;
+};
+
+type BufferProcessGlobal = typeof globalThis & {
+  Buffer?: typeof Buffer;
+  process?: typeof process;
+};
+
+const w = window as BufferProcessWindow;
+const g = globalThis as BufferProcessGlobal;
+
+// Buffer shim
+w.Buffer = w.Buffer ?? Buffer;
+g.Buffer = g.Buffer ?? Buffer;
+
+// Process shim
+w.process = w.process ?? process;
+g.process = g.process ?? process;
