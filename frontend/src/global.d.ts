@@ -5,10 +5,13 @@ declare global {
     solana?: {
       isPhantom?: boolean;
       connect: (opts?: { onlyIfTrusted?: boolean }) => Promise<{
-        publicKey: { toString(): string };
+        publicKey: { toString(): string; toBase58(): string };
       }>;
       disconnect: () => Promise<void>;
-      on?: (event: "connect" | "disconnect", handler: (...a: any[]) => void) => void;
+      on?: (
+        event: "connect" | "disconnect",
+        handler: (...args: unknown[]) => void
+      ) => void;
     };
   }
 }
